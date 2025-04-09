@@ -26,7 +26,7 @@ class EnvState:
 
 @chex.dataclass
 class EnvParams:
-    boids: BoidParams = field(default_factory=lambda: BoidParams())
+    boids: BoidParams = chex.field(default_factory=lambda: BoidParams())
     collision_penalty: float = 0.1
     agent_radius: float = 0.01
 
@@ -43,8 +43,8 @@ class Observation:
 
 @chex.dataclass
 class PredatorPreyParams:
-    prey_params: BoidParams = field(default_factory=lambda: BoidParams())
-    predator_params: BoidParams = field(default_factory=lambda: BoidParams())
+    prey_params: BoidParams = chex.field(default_factory=lambda: BoidParams())
+    predator_params: BoidParams = chex.field(default_factory=lambda: BoidParams())
     prey_penalty: float = 0.1
     predator_reward: float = 0.1
 
