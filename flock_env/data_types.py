@@ -24,11 +24,20 @@ class EnvState:
     step: int
 
 
+# Define a function to create BoidParams instances
+def default_boid_params():
+    return BoidParams()
+
 @chex.dataclass
 class EnvParams:
-    boids: BoidParams = BoidParams()
+    # Use None as default, then initialize in __post_init__
+    boids: BoidParams = None
     collision_penalty: float = 0.1
     agent_radius: float = 0.01
+    
+    def __post_init__(self):
+        if self.boids is None:
+            self.boids = BoidParams()
 
 
 @chex.dataclass
@@ -43,10 +52,17 @@ class Observation:
 
 @chex.dataclass
 class PredatorPreyParams:
-    prey_params: BoidParams = BoidParams()
-    predator_params: BoidParams = BoidParams()
+    # Use None as default, then initialize in __post_init__
+    prey_params: BoidParams = None
+    predator_params: BoidParams = None
     prey_penalty: float = 0.1
     predator_reward: float = 0.1
+    
+    def __post_init__(self):
+        if self.prey_params is None:
+            self.prey_params = BoidParams()
+        if self.predator_params is None:
+            self.predator_params = BoidParams()
 
 
 @chex.dataclass
