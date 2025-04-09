@@ -24,13 +24,9 @@ class EnvState:
     step: int
 
 
-# Define a function to create BoidParams instances
-def default_boid_params():
-    return BoidParams()
-
 @chex.dataclass
 class EnvParams:
-    # Use None as default, then initialize in __post_init__
+    # Fix mutable default
     boids: BoidParams = None
     collision_penalty: float = 0.1
     agent_radius: float = 0.01
@@ -43,16 +39,23 @@ class EnvParams:
 @chex.dataclass
 class Observation:
     n_flock: int = 0
-    pos: chex.Array = jnp.zeros(2)
+    # Fix mutable defaults
+    pos: chex.Array = None
     speed: float = 0.0
     heading: float = 0.0
     n_coll: int = 0
-    pos_coll: chex.Array = jnp.zeros(2)
+    pos_coll: chex.Array = None
+    
+    def __post_init__(self):
+        if self.pos is None:
+            self.pos = jnp.zeros(2)
+        if self.pos_coll is None:
+            self.pos_coll = jnp.zeros(2)
 
 
 @chex.dataclass
 class PredatorPreyParams:
-    # Use None as default, then initialize in __post_init__
+    # Fix mutable defaults
     prey_params: BoidParams = None
     predator_params: BoidParams = None
     prey_penalty: float = 0.1
